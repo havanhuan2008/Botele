@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Dashboard</h3>
+
+<div class="card p-3 mb-3">
+  <div class="d-flex align-items-center justify-content-between">
+    <div>
+      <div><b>Bot Name:</b> {{ bot_name }}</div>
+      <div><b>Token:</b> {{ "Đã cấu hình" if has_token else "Chưa có" }}</div>
+      <div><b>Bot:</b> {{ "Đang chạy" if bot_running else "Đang dừng" }}</div>
+      <div><b>Persona:</b>
+        {% if persona=="sweet" %} Dịu dàng chiều mến
+        {% elif persona=="blunt" %} Thẳng – gọn – rõ (gắt nhẹ)
+        {% else %} Cà khịa mặn (không xúc phạm)
+        {% endif %}
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <form method="post" action="{{ url_for('bot_start') }}">
+        <button class="btn btn-success" {{ "disabled" if not has_token else "" }}>Start Bot</button>
+      </form>
+      <form method="post" action="{{ url_for('bot_stop') }}">
+        <button class="btn btn-outline-danger">Stop Bot</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="card p-3 mb-3">
+  <div class="d-flex align-items-center justify-content-between">
+    <div>
+      <div><b>Auto Reply:</b> {{ "BẬT" if auto_reply_enabled else "TẮT" }}</div>
+      <div class="text-muted">Bật lên thì ai nhắn bot sẽ được bot trả lời “có suy nghĩ” (dựa ngữ cảnh gần đây).</div>
+    </div>
+    <form method="post" action="{{ url_for('autoreply_toggle') }}">
+      <input type="hidden" name="enabled" value="{{ 0 if auto_reply_enabled else 1 }}">
+      <button class="btn {{ 'btn-outline-secondary' if auto_reply_enabled else 'btn-primary' }}">
+        {{ "Tắt Auto Reply" if auto_reply_enabled else "Bật Auto Reply" }}
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="card p-3">
+  <h5 class="mb-2">Lịch tự động</h5>
+  <div class="text-muted">Vào menu “Tự động” để thêm/sửa.</div>
+  <div class="mt-2">Tổng lịch: <b>{{ schedules|length }}</b></div>
+</div>
+{% endblock %}

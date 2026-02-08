@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Setup Bot</h3>
+
+<form method="post" class="card p-3">
+  <label class="form-label">Bot Token</label>
+  <input name="token" class="form-control" value="{{ token }}" placeholder="123456789:AA..." />
+
+  <label class="form-label mt-3">Tên bot (hiển thị trong web)</label>
+  <input name="bot_name" class="form-control" value="{{ bot_name }}" placeholder="Bot" />
+
+  <label class="form-label mt-3">Tính cách (Persona)</label>
+  <select name="persona" class="form-select">
+    <option value="sweet" {{ "selected" if persona=="sweet" else "" }}>Dịu dàng chiều mến</option>
+    <option value="blunt" {{ "selected" if persona=="blunt" else "" }}>Thẳng – gọn – rõ (gắt nhẹ)</option>
+    <option value="sassy" {{ "selected" if persona=="sassy" else "" }}>Cà khịa mặn (không xúc phạm)</option>
+  </select>
+
+  <div class="mt-3">
+    <button class="btn btn-primary">Lưu cấu hình</button>
+  </div>
+</form>
+{% endblock %}

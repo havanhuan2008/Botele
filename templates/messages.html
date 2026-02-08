@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Tin nhắn bot nhận</h3>
+<div class="card p-3">
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Thời gian</th>
+        <th>chat_id</th>
+        <th>username</th>
+        <th>text</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td>{{ r["ts"] }}</td>
+        <td>{{ r["chat_id"] }}</td>
+        <td>{{ r["username"] }}</td>
+        <td style="max-width:520px; white-space:pre-wrap;">{{ r["text"] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Gửi tin nhắn</h3>
+<div class="alert alert-info">
+  Bot: {{ "Đang chạy" if bot_running else "Đang dừng" }} (Gửi tin vẫn hoạt động nếu token hợp lệ)
+</div>
+<form method="post" class="card p-3">
+  <label class="form-label">Chat ID</label>
+  <input name="chat_id" class="form-control" placeholder="Ví dụ: 123456789" />
+  <label class="form-label mt-2">Nội dung</label>
+  <textarea name="text" class="form-control" rows="4" placeholder="Nhập nội dung..."></textarea>
+  <div class="mt-3">
+    <button class="btn btn-primary">Gửi</button>
+  </div>
+</form>
+
+<div class="mt-3 text-muted">
+  Mẹo lấy chat_id: nhắn cho bot 1 tin → vào trang “Tin nhắn” xem chat_id.
+</div>
+{% endblock %}

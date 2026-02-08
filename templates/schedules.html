@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Cài gửi tự động</h3>
+
+<div class="card p-3 mb-3">
+  <h5>Tạo lịch mới</h5>
+  <form method="post">
+    <div class="row g-2">
+      <div class="col-md-3">
+        <label class="form-label">Tên</label>
+        <input name="name" class="form-control" placeholder="Daily report"/>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Chat ID</label>
+        <input name="chat_id" class="form-control" placeholder="123456789"/>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Nội dung</label>
+        <input name="text" class="form-control" placeholder="Xin chào! Đây là tin tự động"/>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Cron (5 phần)</label>
+        <input name="cron" class="form-control" placeholder="0 9 * * *"/>
+        <div class="text-muted small mt-1">
+          minute hour day month day_of_week<br/>
+          Ví dụ: <code>0 9 * * *</code> (09:00 mỗi ngày),
+          <code>*/5 * * * *</code> (mỗi 5 phút)
+        </div>
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button class="btn btn-primary w-100">Tạo</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="card p-3">
+  <h5>Danh sách lịch</h5>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>ID</th><th>Tên</th><th>Chat</th><th>Nội dung</th><th>Cron</th><th>Trạng thái</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td>{{ r["id"] }}</td>
+        <td>{{ r["name"] }}</td>
+        <td>{{ r["chat_id"] }}</td>
+        <td style="max-width:340px; white-space:pre-wrap;">{{ r["text"] }}</td>
+        <td><code>{{ r["cron"] }}</code></td>
+        <td>
+          <form method="post" action="{{ url_for('schedules_toggle', sid=r['id']) }}">
+            <input type="hidden" name="enabled" value="{{ 0 if r['enabled'] else 1 }}">
+            <button class="btn btn-sm {{ 'btn-success' if r['enabled'] else 'btn-outline-secondary' }}">
+              {{ "ON" if r["enabled"] else "OFF" }}
+            </button>
+          </form>
+        </td>
+        <td>
+          <form method="post" action="{{ url_for('schedules_delete', sid=r['id']) }}">
+            <button class="btn btn-sm btn-outline-danger">Xoá</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
